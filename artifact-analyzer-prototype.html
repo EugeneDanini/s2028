@@ -265,7 +265,7 @@
     <div class="container">
         <div class="tool-card">
 
-            <div class="upload-section">
+            <div class="upload-section" id="upload-area">
                 <div class="upload-icon">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#382e5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -274,51 +274,166 @@
                     </svg>
                 </div>
                 <div class="upload-text">Drag and drop your article files here</div>
-                <button class="upload-btn">Browse Files</button>
+                <button class="upload-btn" id="browse-btn">Browse Files</button>
+                <input type="file" id="file-input" multiple style="display: none;">
                 
                 <div class="or-divider">
                     <span class="or-text">or</span>
                 </div>
                 
-                <div class="file-list">
-                    <div class="file-item">
-                        <span class="file-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                        </span>
-                        <span class="file-name">article1.docx</span>
-                        <span class="file-remove">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="file-item">
-                        <span class="file-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                        </span>
-                        <span class="file-name">article2.pdf</span>
-                        <span class="file-remove">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </span>
-                    </div>
+                <div class="file-list" id="file-list">
+                    <!-- Files will be added here dynamically -->
                 </div>
             </div>
+
+            <script>
+                // Get DOM elements
+                const uploadArea = document.getElementById('upload-area');
+                const fileInput = document.getElementById('file-input');
+                const browseBtn = document.getElementById('browse-btn');
+                const fileList = document.getElementById('file-list');
+                const analysisSection = document.querySelector('.analysis-section');
+                
+                // Store files
+                let uploadedFiles = [];
+                
+                // Add sample files initially
+                const sampleFiles = [
+                    { name: 'article1.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+                    { name: 'article2.pdf', type: 'application/pdf' }
+                ];
+                
+                // Initialize with sample files
+                sampleFiles.forEach(file => {
+                    addFileToList(file);
+                    uploadedFiles.push(file);
+                });
+                
+                // Add event listeners
+                browseBtn.addEventListener('click', () => {
+                    fileInput.click();
+                });
+                
+                fileInput.addEventListener('change', (e) => {
+                    handleFiles(e.target.files);
+                });
+                
+                // Drag and drop events
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    uploadArea.classList.add('highlight');
+                    uploadArea.style.borderColor = '#382e5e';
+                    uploadArea.style.backgroundColor = 'rgba(56, 46, 94, 0.08)';
+                }
+                
+                function unhighlight() {
+                    uploadArea.classList.remove('highlight');
+                    uploadArea.style.borderColor = 'rgba(56, 46, 94, 0.3)';
+                    uploadArea.style.backgroundColor = 'rgba(56, 46, 94, 0.05)';
+                }
+                
+                uploadArea.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    handleFiles(files);
+                }
+                
+                function handleFiles(files) {
+                    if (files.length > 0) {
+                        Array.from(files).forEach(file => {
+                            // Check if file is already in the list
+                            if (!uploadedFiles.some(f => f.name === file.name)) {
+                                uploadedFiles.push(file);
+                                addFileToList(file);
+                            }
+                        });
+                        
+                        // Show analysis section if there are files
+                        if (uploadedFiles.length > 0) {
+                            analysisSection.style.display = 'block';
+                        }
+                    }
+                }
+                
+                function addFileToList(file) {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <span class="file-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </span>
+                        <span class="file-name">${file.name}</span>
+                        <span class="file-remove" data-name="${file.name}">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </span>
+                    `;
+                    
+                    fileList.appendChild(fileItem);
+                    
+                    // Add event listener to remove button
+                    const removeBtn = fileItem.querySelector('.file-remove');
+                    removeBtn.addEventListener('click', function() {
+                        const fileName = this.getAttribute('data-name');
+                        removeFile(fileName, fileItem);
+                    });
+                }
+                
+                function removeFile(fileName, fileItem) {
+                    // Remove from array
+                    uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+                    
+                    // Remove from DOM
+                    fileItem.remove();
+                    
+                    // Hide analysis section if no files
+                    if (uploadedFiles.length === 0) {
+                        analysisSection.style.display = 'none';
+                    }
+                }
+                
+                // Show/hide analysis section based on initial files
+                if (uploadedFiles.length > 0) {
+                    analysisSection.style.display = 'block';
+                } else {
+                    analysisSection.style.display = 'none';
+                }
+                
+                // Add click events to action buttons
+                document.querySelector('.primary-btn').addEventListener('click', () => {
+                    alert('Downloading analysis report...');
+                });
+                
+                document.querySelector('.secondary-btn').addEventListener('click', () => {
+                    alert('Opening detailed analysis view...');
+                });
+            </script>
             
             <div class="analysis-section">
                 <div class="analysis-title">Analysis Results</div>
@@ -339,22 +454,53 @@
                         </div>
                     </div>
                     
-                    <div style="position: relative; display: inline-block; width: 100%;">
-                        <img src="/api/placeholder/800/450" alt="Document with highlighted sections" class="content-image">
-                        <div style="position: absolute; top: 15%; left: 10%; width: 30%; height: 20%; border: 2px solid #382e5e; background-color: rgba(56, 46, 94, 0.1);"></div>
-                        <div style="position: absolute; top: 45%; left: 25%; width: 40%; height: 15%; border: 2px solid #382e5e; background-color: rgba(56, 46, 94, 0.1);"></div>
-                        <div style="position: absolute; top: 70%; left: 15%; width: 50%; height: 12%; border: 2px solid #382e5e; background-color: rgba(56, 46, 94, 0.1);"></div>
-                    </div>
-                    
+
                     <div class="highlighted-text">
                         <div class="highlight-marker"></div>
                         <div class="content-paragraph">
-                            The analysis identified several key sections in the document that contain high-value information. The highlighted areas show the most reliable content with <span class="highlight">verifiable facts</span> and <span class="highlight">expert opinions</span>.
+                            Why don't scientists trust atoms?
+                            Because they make up everything!
                         </div>
                         <div class="content-paragraph">
-                            The article demonstrates strong <span class="highlight">structural coherence</span> and logical flow. Sources are properly cited and information is presented in a clear, concise manner that aligns with industry best practices.
+                            And why can't you trust a molecule? Because <span class="highlight" title="Detected use of LLM model: Claude 3.9" style="position: relative; cursor: help;">they get excited, they gain energy</span> and just can't remain stable about anything!
                         </div>
                     </div>
+
+                    <style>
+                        .highlight {
+                            background-color: rgba(56, 46, 94, 0.2);
+                            padding: 2px 0;
+                            position: relative;
+                        }
+                        
+                        .highlight:hover::after {
+                            content: attr(title);
+                            position: absolute;
+                            bottom: 100%;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            background-color: #382e5e;
+                            color: white;
+                            padding: 6px 10px;
+                            border-radius: 4px;
+                            font-size: 12px;
+                            white-space: nowrap;
+                            z-index: 10;
+                            margin-bottom: 5px;
+                        }
+                        
+                        .highlight:hover::before {
+                            content: '';
+                            position: absolute;
+                            bottom: 100%;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            border-width: 5px;
+                            border-style: solid;
+                            border-color: transparent transparent #382e5e transparent;
+                            margin-bottom: -5px;
+                        }
+                    </style>
                     
                     <div class="action-buttons">
                         <button class="action-btn primary-btn">Download Report</button>
