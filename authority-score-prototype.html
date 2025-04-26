@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authority Score</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+        }
+        
+        header {
+            background-color: #382e5e;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .tool-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(56, 46, 94, 0.2);
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        .tool-description {
+            margin-bottom: 25px;
+            color: #382e5e;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .auth-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .auth-table th {
+            background-color: rgba(56, 46, 94, 0.1);
+            color: #382e5e;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #382e5e;
+        }
+        
+        .auth-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(56, 46, 94, 0.1);
+        }
+        
+        .auth-table tr:hover {
+            background-color: rgba(56, 46, 94, 0.05);
+        }
+        
+        .auth-score {
+            font-weight: bold;
+            color: #382e5e;
+        }
+        
+        .score-bar {
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background-color: #382e5e;
+        }
+        
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            padding: 8px 15px;
+            border: 1px solid rgba(56, 46, 94, 0.3);
+            border-radius: 4px;
+            width: 250px;
+            font-size: 14px;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #382e5e;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-button {
+            padding: 8px 15px;
+            background-color: white;
+            border: 1px solid rgba(56, 46, 94, 0.3);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #382e5e;
+        }
+        
+        .filter-button.active {
+            background-color: #382e5e;
+            color: white;
+            border-color: #382e5e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Authority Score</h1>
+    </header>
+    
+    <div class="container">
+        <div class="tool-card">
+            <div class="tool-description">
+                The <strong>Semrush Source Authority Score</strong> helps you evaluate the credibility of information sources. This tool provides authority ratings for popular websites based on expert assessment and historical reputation. Higher scores indicate sources that are manually created by industry experts and have established trust over time. Use these scores to quickly assess the reliability of information and identify the most trustworthy references in any niche.
+            </div>
+            
+            <div class="filter-section">
+                <input type="text" class="search-box" placeholder="Search websites...">
+                <div class="filter-buttons">
+                    <button class="filter-button active">All</button>
+                    <button class="filter-button">News</button>
+                    <button class="filter-button">Technology</button>
+                    <button class="filter-button">Health</button>
+                    <button class="filter-button">Business</button>
+                </div>
+            </div>
+            
+            <table class="auth-table">
+                <thead>
+                    <tr>
+                        <th>Website</th>
+                        <th>Authority Score</th>
+                        <th>Niche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>nytimes.com</td>
+                        <td>
+                            <div class="auth-score">97</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 97%"></div>
+                            </div>
+                        </td>
+                        <td>News</td>
+                    </tr>
+                    <tr>
+                        <td>github.com</td>
+                        <td>
+                            <div class="auth-score">96</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 96%"></div>
+                            </div>
+                        </td>
+                        <td>Technology</td>
+                    </tr>
+                    <tr>
+                        <td>forbes.com</td>
+                        <td>
+                            <div class="auth-score">95</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 95%"></div>
+                            </div>
+                        </td>
+                        <td>Business</td>
+                    </tr>
+                    <tr>
+                        <td>cnn.com</td>
+                        <td>
+                            <div class="auth-score">94</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 94%"></div>
+                            </div>
+                        </td>
+                        <td>News</td>
+                    </tr>
+                    <tr>
+                        <td>techcrunch.com</td>
+                        <td>
+                            <div class="auth-score">92</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 92%"></div>
+                            </div>
+                        </td>
+                        <td>Technology</td>
+                    </tr>
+                    <tr>
+                        <td>webmd.com</td>
+                        <td>
+                            <div class="auth-score">91</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 91%"></div>
+                            </div>
+                        </td>
+                        <td>Health</td>
+                    </tr>
+                    <tr>
+                        <td>healthline.com</td>
+                        <td>
+                            <div class="auth-score">89</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 89%"></div>
+                            </div>
+                        </td>
+                        <td>Health</td>
+                    </tr>
+                    <tr>
+                        <td>marketwatch.com</td>
+                        <td>
+                            <div class="auth-score">88</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 88%"></div>
+                            </div>
+                        </td>
+                        <td>Business</td>
+                    </tr>
+                    <tr>
+                        <td>wordpress.org</td>
+                        <td>
+                            <div class="auth-score">86</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 86%"></div>
+                            </div>
+                        </td>
+                        <td>Technology</td>
+                    </tr>
+                    <tr>
+                        <td>mayoclinic.org</td>
+                        <td>
+                            <div class="auth-score">85</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 85%"></div>
+                            </div>
+                        </td>
+                        <td>Health</td>
+                    </tr>
+                    <tr>
+                        <td>reuters.com</td>
+                        <td>
+                            <div class="auth-score">93</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 93%"></div>
+                            </div>
+                        </td>
+                        <td>News</td>
+                    </tr>
+                    <tr>
+                        <td>investopedia.com</td>
+                        <td>
+                            <div class="auth-score">87</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 87%"></div>
+                            </div>
+                        </td>
+                        <td>Business</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

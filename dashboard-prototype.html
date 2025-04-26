@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semrush Data Quality Toolkit</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+        }
+        
+        header {
+            background-color: #382e5e;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tool-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(56, 46, 94, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tool-header {
+            background-color: #382e5e;
+            color: white;
+            padding: 15px;
+        }
+        
+        .tool-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        
+        .tool-content {
+            padding: 20px;
+            height: 300px;
+            overflow: auto;
+        }
+        
+        /* Source Finder Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        table th {
+            background-color: rgba(56, 46, 94, 0.1);
+            color: #382e5e;
+        }
+        
+        /* Authority Score Graph Styles */
+        .graph-container {
+            height: 250px;
+            position: relative;
+        }
+        
+        .bar {
+            display: inline-block;
+            width: 30px;
+            margin-right: 15px;
+            background-color: #382e5e;
+            position: absolute;
+            bottom: 0;
+            transition: height 0.5s ease;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            text-align: center;
+            width: 30px;
+            font-size: 12px;
+        }
+        
+        /* Artifact Analyzer Infographics Styles */
+        .infographic {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .circle-stat {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: rgba(56, 46, 94, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            border: 3px solid #382e5e;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #382e5e;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background-color: rgba(56, 46, 94, 0.05);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border-left: 3px solid #382e5e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Semrush Data Quality Toolkit</h1>
+    </header>
+    
+    <div class="container">
+        <div class="dashboard">
+            <!-- Source Finder Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2>Source Finder</h2>
+                </div>
+                <div class="tool-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Website</th>
+                                <th>Authority</th>
+                                <th>Niche</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>techcrunch.com</td>
+                                <td>92</td>
+                                <td>Technology</td>
+                            </tr>
+                            <tr>
+                                <td>healthline.com</td>
+                                <td>89</td>
+                                <td>Health</td>
+                            </tr>
+                            <tr>
+                                <td>forbes.com</td>
+                                <td>95</td>
+                                <td>Business</td>
+                            </tr>
+                            <tr>
+                                <td>nytimes.com</td>
+                                <td>97</td>
+                                <td>News</td>
+                            </tr>
+                            <tr>
+                                <td>webmd.com</td>
+                                <td>91</td>
+                                <td>Health</td>
+                            </tr>
+                            <tr>
+                                <td>marketwatch.com</td>
+                                <td>88</td>
+                                <td>Finance</td>
+                            </tr>
+                            <tr>
+                                <td>cnn.com</td>
+                                <td>94</td>
+                                <td>News</td>
+                            </tr>
+                            <tr>
+                                <td>github.com</td>
+                                <td>96</td>
+                                <td>Technology</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Authority Score Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2>Authority Score</h2>
+                </div>
+                <div class="tool-content">
+                    <div class="graph-container">
+                        <div class="bar" style="left: 20px; height: 75%; background-color: #382e5e;">
+                            <div class="bar-label">Jan</div>
+                        </div>
+                        <div class="bar" style="left: 65px; height: 60%; background-color: #382e5e;">
+                            <div class="bar-label">Feb</div>
+                        </div>
+                        <div class="bar" style="left: 110px; height: 85%; background-color: #382e5e;">
+                            <div class="bar-label">Mar</div>
+                        </div>
+                        <div class="bar" style="left: 155px; height: 90%; background-color: #382e5e;">
+                            <div class="bar-label">Apr</div>
+                        </div>
+                        <div class="bar" style="left: 200px; height: 70%; background-color: #382e5e;">
+                            <div class="bar-label">May</div>
+                        </div>
+                        <div class="bar" style="left: 245px; height: 80%; background-color: #382e5e;">
+                            <div class="bar-label">Jun</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px; color: #382e5e; font-weight: bold; text-align: center;">
+                        Authority Score Trend (Last 6 Months)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artifact Analyzer Tool -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2>Artifact Analyzer</h2>
+                </div>
+                <div class="tool-content">
+                    <div class="infographic">
+                        <div class="circle-stat">
+                            <div class="stat-value">93%</div>
+                            <div class="stat-label">Quality Score</div>
+                        </div>
+                        
+                        <div class="stat-row">
+                            <div class="stat-box">
+                                <div style="font-weight: bold; color: #382e5e;">87%</div>
+                                <div>Originality</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-weight: bold; color: #382e5e;">95%</div>
+                                <div>Relevance</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-weight: bold; color: #382e5e;">91%</div>
+                                <div>Accuracy</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background-color: rgba(56, 46, 94, 0.05); border-radius: 5px; width: 100%;">
+                            <div style="font-weight: bold; color: #382e5e; margin-bottom: 5px;">Content Analysis</div>
+                            <div style="font-size: 14px;">This content demonstrates high expertise with proper citations and up-to-date information. Structure and readability score well above industry average.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
